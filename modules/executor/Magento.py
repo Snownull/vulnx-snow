@@ -1,22 +1,21 @@
 
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from __future__ import (absolute_import, division, print_function)
 
 from modules.gathering.host_gathering import GatherHost
-from modules.dns_dump import dnsdumper,domain_info
+from modules.dns_dump import dnsdumper, domain_info
 from modules.scan_ports import ScanPort
+from modules.exploits.magento_exploits import MagentoExploits
 import sys
 
 
 class Magento(object):
     """
-    call it when target is a Magento cms.
-    Usings method from other class.
+    Enhanced Magento CMS handler with modern exploit capabilities.
     """
 
     def __init__(self, url=None, headers=None, port=None):
-        
         # init the url & headers.
         self.url = url
         self.headers = headers
@@ -24,14 +23,20 @@ class Magento(object):
         self.port = port
 
     def exploit(self):
-        return print('no exploits found.')
+        """Run Magento exploits"""
+        try:
+            mg_exploits = MagentoExploits(self.url, self.headers)
+            mg_exploits.mgexploits()
+        except Exception as e:
+            print(f'Error running Magento exploits: {e}')
+            return print('no exploits found.')
 
     def webinfo(self):
-        web = GatherHost(self.url,self.headers)
+        web = GatherHost(self.url, self.headers)
         web.web_host()
 
     def serveros(self):
-        os = GatherHost(self.url,self.headers)
+        os = GatherHost(self.url, self.headers)
         os.os_server()
 
     def cmsinfo(self):
@@ -43,7 +48,7 @@ class Magento(object):
     def domaininfo(self):
         return domain_info(self.url)
 
-    def ports(self,port):
+    def ports(self, port):
         self.port = port
-        sp = ScanPort(self.url,self.port)
+        sp = ScanPort(self.url, self.port)
         sp.portscan()

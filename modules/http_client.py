@@ -265,7 +265,7 @@ class EnhancedHTTPClient:
         retry_strategy = Retry(
             total=max_retries,
             status_forcelist=[429, 500, 502, 503, 504],
-            method_whitelist=["HEAD", "GET", "OPTIONS", "POST"],
+            allowed_methods=["HEAD", "GET", "OPTIONS", "POST"],
             backoff_factor=backoff_factor
         )
         

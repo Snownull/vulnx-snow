@@ -819,7 +819,7 @@ class AdvancedCMSDetector:
         elements = ['div', 'span', 'p', 'a', 'img', 'script', 'link', 'meta']
         
         for element in elements:
-            count = len(re.findall(f'<{element}(?:\s|>)', content, re.IGNORECASE))
+            count = len(re.findall(rf'<{element}(?:\s|>)', content, re.IGNORECASE))
             element_counts[element] = count
         
         # Create structure signature
